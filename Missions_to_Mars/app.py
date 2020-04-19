@@ -1,6 +1,7 @@
-from flask import Flask, jsonify
-from scrape_mars import scrape
+from flask import Flask, jsonify, render_template
 import pymongo
+from bson import json_util
+import json
 
 app = Flask(__name__)
 
@@ -12,11 +13,17 @@ def home():
 @app.route('/scrape')
 def scrape_page():
 
-    return 'Scraping websites for Mars informaiton....'
-    post = (scrape())
-    return 'Done.'
+    print('A request for the scrape page…')
 
-    return 'Connecting to MongoDB....'
+    from scrape_mars import scrape
+
+    print('Scraping websites for Mars informaiton....')
+    post = scrape()
+
+    # return jsonify(post)
+    print('Done.')
+
+    print('Connecting to MongoDB....')
     # Initialize PyMongo to work with MongoDBs
     conn = 'mongodb://localhost:27017'
     client = pymongo.MongoClient(conn)
@@ -24,17 +31,20 @@ def scrape_page():
     # Define database and collection
     db = client.mars_db
     collection = db.mars_info
-    return 'Done.'
+    print('Done.')
 
-    return 'Writing to database....'
+    print('Writing to database....')
     collection.insert_one(post)
-    return 'Done.'
+    print('Done.')
 
-    return 'Displaying DB....'
+    print('Displaying DB....')
     listings = db.mars_info.find()
 
     for listing in listings:
-        print(listing)
+        # print(listing)
+        # print('\n----\n')
+        return json.dumps(listing, indent=4, default=json_util.default)
+        return '\n----\n'
 
 if __name__ == "__main__":
     app.run(debug=True)

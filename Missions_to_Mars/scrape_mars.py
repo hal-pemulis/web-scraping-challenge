@@ -23,13 +23,12 @@ def scrape():
     news_img = results.img['src']
 
     # Get JPL featured image
-    executable_path = {'executable_path': '/usr/local/bin/chromedriver'}
-    browser = Browser('chrome', **executable_path, headless=False)
     jpl_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
     browser.visit(jpl_url)
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
     featured_image_url = (f"https://www.jpl.nasa.gov{soup.find('a', class_='button fancybox')['data-fancybox-href']}")
+    browser.quit()
 
     # Get lastest Mars weather tweet
     request = requests.get('https://twitter.com/marswxreport?lang=en')
@@ -69,4 +68,8 @@ def scrape():
     recent_mars_info['Hemisphere images'] = img_list
     recent_mars_info['Mars Facts'] = df_dict['Value']
 
+    print(recent_mars_info)
+
     return recent_mars_info
+
+# scarpe()
