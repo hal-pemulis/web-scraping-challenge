@@ -3,6 +3,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from splinter import Browser
+import time
 
 def scrape():
 
@@ -21,6 +22,8 @@ def scrape():
     news_link = results.a['href']
     news_p = results.find('div', class_='article_teaser_body').text
     news_img = results.img['src']
+
+    time.sleep(3)
 
     # Get JPL featured image
     jpl_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
@@ -42,7 +45,7 @@ def scrape():
     df.columns = ['Index', 'Value']
     df.set_index('Index', inplace=True)
     # Convert DF to dictionary
-    df_dict = df.to_dict()
+    fact_dict = df.to_dict()
     # df.to_html('../Resources/mars_table.html')
 
     mars_pics_url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
@@ -62,14 +65,14 @@ def scrape():
                 
     # Create and return dictionary from scraped data             
     recent_mars_info={}
-    recent_mars_info['Latest News'] = {'Title':news_title, 'Teaser': news_p, 'URL': news_link, 'Image': news_img}
-    recent_mars_info['JPL Featured Image'] = featured_image_url
-    recent_mars_info['Current Mars Weather'] = mars_weather
-    recent_mars_info['Hemisphere images'] = img_list
-    recent_mars_info['Mars Facts'] = df_dict['Value']
+    recent_mars_info['Latest_News'] = {'Title':news_title, 'Teaser': news_p, 'URL': news_link, 'Image': news_img}
+    recent_mars_info['JPL_Featured_Image'] = featured_image_url
+    recent_mars_info['Current_Mars_Weather'] = mars_weather
+    recent_mars_info['Hemisphere_images'] = img_list
+    recent_mars_info['Mars_Facts'] = fact_dict['Value']
 
     print(recent_mars_info)
 
     return recent_mars_info
 
-# scarpe()
+# scrape()

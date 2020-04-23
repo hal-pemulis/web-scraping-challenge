@@ -1,50 +1,53 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, render_template, redirect
 import pymongo
 from bson import json_util
 import json
+from scrape_mars import scrape
 
 app = Flask(__name__)
 
+
+recent_mars_info={}
+recent_mars_info['Latest_News'] = {'Title':'', 'Teaser': '', 'URL': '', 'Image': ''}
+recent_mars_info['JPL_Featured_Image'] = ''
+recent_mars_info['Current_Mars_Weather'] = ''
+recent_mars_info['Hemisphere_images'] = ''
+# recent_mars_info['Mars_Facts'] = {}
+
+print('Connecting to MongoDB....')
+# Initialize PyMongo to work with MongoDBs
+conn = 'mongodb://localhost:27017'
+client = pymongo.MongoClient(conn)
+
+# Define database and collection
+db = client.mars_db
+client.drop_database(db)
+collection = db.mars_info
+
+db.collection.update({}, {"$set": {'mars_info':recent_mars_info}}, upsert=True)
+
 @app.route('/')
 def home():
+
     print('A request for the home page…')
-    return 'Go to /scrape'
+
+    mars_dict = db.collection.find()
+
+    return render_template('index.html', dict=mars_dict[0])
 
 @app.route('/scrape')
 def scrape_page():
-
+    
     print('A request for the scrape page…')
-
-    from scrape_mars import scrape
 
     print('Scraping websites for Mars informaiton....')
     post = scrape()
 
-    # return jsonify(post)
-    print('Done.')
-
-    print('Connecting to MongoDB....')
-    # Initialize PyMongo to work with MongoDBs
-    conn = 'mongodb://localhost:27017'
-    client = pymongo.MongoClient(conn)
-
-    # Define database and collection
-    db = client.mars_db
-    collection = db.mars_info
-    print('Done.')
-
     print('Writing to database....')
-    collection.insert_one(post)
-    print('Done.')
-
-    print('Displaying DB....')
-    listings = db.mars_info.find()
-
-    for listing in listings:
-        # print(listing)
-        # print('\n----\n')
-        return json.dumps(listing, indent=4, default=json_util.default)
-        return '\n----\n'
+    db.collection.update({}, {"$set": {'mars_info':post}}, upsert=True)
+    
+    print('Redirecting....')
+    return redirect('/', code=302)
 
 if __name__ == "__main__":
     app.run(debug=True)

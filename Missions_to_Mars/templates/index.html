@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Mission to Mars</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="body">
+    <div class="jumbotron text-center">
+      <h1>The Red Planet</h1>
+      <p>"Mars is there, waiting to be reached."</p>
+      <p>-Buzz Aldrin</p>
+      <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Blast Off!</a></p>
+    </div>
+    </div>
+    <div>
+      <h3>The lastest news:</h2>
+      <br>
+      <h2><a href='https://mars.nasa.gov{{ dict.mars_info.Latest_News.URL }}'>{{ dict.mars_info.Latest_News.Title }}</a></h2>
+      <p>{{ dict.mars_info.Latest_News.Teaser }}</p>
+      <br>
+      <h3>Featured JPL image:</h3>
+      <br>
+      <img src='{{ dict.mars_info.JPL_Featured_Image }}' alt='JPL_image'>
+      <br>
+      <h3>The current weather on Mars:</h3>
+      <br>
+      <p>{{ dict.mars_info.Current_Mars_Weather }}</p>
+      <br>
+      <h3>Images of Mars:</h3>
+      <br>
+      <ul style="list-style: none;">
+
+        {% for image in dict.mars_info.Hemisphere_images %}
+        <li><img src="{{ image.image_url }}" alt="{{ image.title }}"></li>
+        {% endfor %}
+      </ul>
+      <br>
+      <h3>Mars facts:</h3>
+      <table border="1" class="dataframe">
+        <tbody>
+          {% for key in dict.mars_info.Mars_Facts %}
+          <tr>
+            <td>{{key}}</td>
+            <td>{{dict.mars_info.Mars_Facts[key]}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </div>
+
+</body>
+
+</html>

@@ -9,19 +9,13 @@
 }
 
 .body {
-    background-color: lightgrey;
+    background-color: rgb(190, 89, 89);
 }
 
 .midtitlesmall {
-    font-size: xx-large;
-    text-align: left;
-    background-color: white;
     color: rgb(124, 13, 6);
     font-family: 'Times New Roman', Times, serif;
     font-weight: bold;
-    font-size: x-large;
-    margin-top: 30px;
-    margin-bottom: 30px;
 }
 
 .midtitles {
