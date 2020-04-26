@@ -21,9 +21,9 @@ def scrape():
     news_title = results_title.a.text
     news_link = results.a['href']
     news_p = results.find('div', class_='article_teaser_body').text
-    news_img = results.img['src']
+    # news_img = results.img['src']
 
-    time.sleep(3)
+    time.sleep(5)
 
     # Get JPL featured image
     jpl_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
@@ -65,7 +65,7 @@ def scrape():
                 
     # Create and return dictionary from scraped data             
     recent_mars_info={}
-    recent_mars_info['Latest_News'] = {'Title':news_title, 'Teaser': news_p, 'URL': news_link, 'Image': news_img}
+    recent_mars_info['Latest_News'] = {'Title':news_title, 'Teaser': news_p, 'URL': news_link}
     recent_mars_info['JPL_Featured_Image'] = featured_image_url
     recent_mars_info['Current_Mars_Weather'] = mars_weather
     recent_mars_info['Hemisphere_images'] = img_list

@@ -13,34 +13,22 @@
   <div class="container-fluid">
     <div class="body">
     <div class="jumbotron text-center">
-      <h1>The Red Planet</h1>
+      <h1>Mission to Mars</h1>
       <p>"Mars is there, waiting to be reached."</p>
       <p>-Buzz Aldrin</p>
       <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Blast Off!</a></p>
     </div>
     </div>
     <div>
-      <h3>The lastest news:</h2>
-      <br>
+      <h3>The latest news:</h2>
       <h2><a href='https://mars.nasa.gov{{ dict.mars_info.Latest_News.URL }}'>{{ dict.mars_info.Latest_News.Title }}</a></h2>
       <p>{{ dict.mars_info.Latest_News.Teaser }}</p>
       <br>
       <h3>Featured JPL image:</h3>
-      <br>
-      <img src='{{ dict.mars_info.JPL_Featured_Image }}' alt='JPL_image'>
+      <img src='{{ dict.mars_info.JPL_Featured_Image }}'>
       <br>
       <h3>The current weather on Mars:</h3>
-      <br>
       <p>{{ dict.mars_info.Current_Mars_Weather }}</p>
-      <br>
-      <h3>Images of Mars:</h3>
-      <br>
-      <ul style="list-style: none;">
-
-        {% for image in dict.mars_info.Hemisphere_images %}
-        <li><img src="{{ image.image_url }}" alt="{{ image.title }}"></li>
-        {% endfor %}
-      </ul>
       <br>
       <h3>Mars facts:</h3>
       <table border="1" class="dataframe">
@@ -53,8 +41,15 @@
           {% endfor %}
         </tbody>
       </table>
+      <br>
+      <h3>Images of Mars:</h3>
+      <ul style="list-style: none;">
+        {% for image in dict.mars_info.Hemisphere_images %}
+        <li><img src="{{ image.image_url }}" alt="{{ image.title }}"></li>
+        {% endfor %}
+      </ul>
+      <br>
     </div>
-
   </div>
 
   <div>
