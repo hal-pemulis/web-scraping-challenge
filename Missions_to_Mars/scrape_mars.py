@@ -52,7 +52,7 @@ def scrape():
     request = requests.get(mars_pics_url)
     soup = BeautifulSoup(request.content, 'html.parser')
     results = soup.find_all('a', class_="itemLink product-item")
-    img_list = []
+    img_dict = {}
     for result in results:   
         img = (f"https://astrogeology.usgs.gov{result['href']}")                      
         pic_req = requests.get(img)              
@@ -61,14 +61,14 @@ def scrape():
         title = page_name.split(' ')[0]       
         results = pic_soup.find('li')
         full_pic = results.find('a')['href']
-        img_list.append({'title': title, 'image_url': full_pic})
+        img_dict[title] = full_pic
                 
     # Create and return dictionary from scraped data             
     recent_mars_info={}
     recent_mars_info['Latest_News'] = {'Title':news_title, 'Teaser': news_p, 'URL': news_link}
     recent_mars_info['JPL_Featured_Image'] = featured_image_url
     recent_mars_info['Current_Mars_Weather'] = mars_weather
-    recent_mars_info['Hemisphere_images'] = img_list
+    recent_mars_info['Hemisphere_images'] = img_dict
     recent_mars_info['Mars_Facts'] = fact_dict['Value']
 
     print(recent_mars_info)

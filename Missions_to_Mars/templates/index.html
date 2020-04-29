@@ -43,11 +43,14 @@
       </table>
       <br>
       <h3>Images of Mars:</h3>
-      <ul style="list-style: none;">
-        {% for image in dict.mars_info.Hemisphere_images %}
-        <li><img src="{{ image.image_url }}" alt="{{ image.title }}"></li>
-        {% endfor %}
-      </ul>
+      <div class="row">
+        <img class="col-6" width=500 src="{{dict.mars_info.Hemisphere_images.Cerberus}}"></a>
+        <img class="col-6" width=500 src="{{dict.mars_info.Hemisphere_images.Schiaparelli}}"></a>
+      </div>
+      <div class="row">
+        <img class="col-6" width=500 src="{{dict.mars_info.Hemisphere_images.Syrtis}}"></a>
+        <img class="col-6" width=500 src="{{dict.mars_info.Hemisphere_images.Valles}}"></a>
+      </div>
       <br>
     </div>
   </div>
